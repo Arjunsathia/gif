@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Surprise 💖</title>
+    <meta name="description" content="A premium interactive surprise for your Valentine!">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <main class="container">
+        <div class="card" role="main">
+            <div class="meme-container">
+                <img id="cat-meme" src="https://media1.tenor.com/m/islKHV6ibh0AAAAC/kitty-cat.gif" alt="Cute cat waiting for your answer">
+            </div>
+            <h1 id="question">Will you be my Valentine?</h1>
+            <div class="btn-group">
+                <button id="yesBtn" class="btn btn-yes" aria-label="Yes, I will be your Valentine">YES</button>
+                <button id="noBtn" class="btn btn-no" aria-label="No, I won't">NO</button>
+            </div>
+        </div>
+    </main>
+
+    <div id="celebrationOverlay" class="overlay" role="dialog" aria-labelledby="celebrationTitle" aria-modal="true">
+        <div class="modal">
+            <img id="final-cat" src="https://media1.tenor.com/m/fz4_irvGQlcAAAAC/besito-catlove.gif" alt="Happy Cat love" style="width: 100%; border-radius: 24px;">
+            <h2 id="celebrationTitle">Yay — you're my Valentine! 💖</h2>
+            <p style="margin-top: 1rem; color: var(--text-dim); font-size: 1.1rem;">I knew you'd say yes! You made me the happiest! ✨</p>
+            <button id="closeOverlay" class="close-btn">Close</button>
+        </div>
+    </div>
+
+    <!-- Audio (Optional) -->
+    <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
