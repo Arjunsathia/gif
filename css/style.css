@@ -27,10 +27,9 @@
 
 body {
     background-color: var(--bg-cream);
-    background-image: 
-        radial-gradient(at 0% 0%, hsla(340, 100%, 95%, 1) 0, transparent 50%),
-        radial-gradient(at 100% 100%, hsla(340, 100%, 95%, 1) 0, transparent 50%),
-        radial-gradient(at 50% 50%, hsla(340, 100%, 98%, 1) 0, transparent 100%);
+    background: linear-gradient(-45deg, #fff0f5, #ffe6ea, #fff0f5, #f8f9fa);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
     color: var(--text-dark);
     font-family: 'Outfit', sans-serif;
     min-height: 100vh;
@@ -141,7 +140,13 @@ body {
     position: absolute;
     opacity: 0.1;
     filter: blur(1px);
-    animation: float-hearts 15s infinite linear;
+    animation: float-hearts 25s infinite linear;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 @keyframes float-hearts {
@@ -169,8 +174,13 @@ body {
     align-items: center;
     transform: translateZ(0);
     transition: var(--transition-smooth);
-    animation: card-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: card-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1), card-float 6s ease-in-out infinite;
     overflow: hidden; /* Prevent massive buttons from stretching the document */
+}
+
+@keyframes card-float {
+    0%, 100% { transform: translateY(0) translateZ(0); box-shadow: 0 20px 50px rgba(233, 30, 99, 0.15), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+    50% { transform: translateY(-10px) translateZ(0); box-shadow: 0 30px 60px rgba(233, 30, 99, 0.2), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
 }
 
 .card.shake {
@@ -254,12 +264,14 @@ h1 {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent);
+    transform: skewX(-20deg) translateX(-150%);
+    transition: 0.5s;
     opacity: 0;
-    transition: 0.3s;
 }
 
 .btn:hover::after {
+    transform: skewX(-20deg) translateX(150%);
     opacity: 1;
 }
 
@@ -483,5 +495,16 @@ h1 {
 
     .modal h2 {
         font-size: 2rem;
+    }
+
+    /* Mobile Loader Tweaks */
+    .loader-text {
+        font-size: 1.5rem;
+        padding: 0 1rem;
+        text-align: center;
+    }
+
+    .heart-bowl {
+        transform: scale(0.8);
     }
 }

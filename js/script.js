@@ -14,7 +14,7 @@ const messages = [
     "Eeeeh eeh! 😳",
     "Wait, sherikum? 😿",
     "Onoodi aloichok? 😿",
-    "Ente mogathek nokkye! 🥺",
+    "Igoott nokkye! 🥺",
     "Orapano, last chance 😠",
     "avasana Chance, okay? 😤",
     "Aah eni ith amarthikoo.. YES! 😒"
