@@ -38,7 +38,91 @@ body {
     align-items: center;
     justify-content: center;
     padding: 24px;
-    overflow-x: hidden;
+    overflow: hidden; /* Prevent scroll while loading */
+}
+
+/* Loader Styles */
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+}
+
+.loader-wrapper.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.heart-bowl {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    animation: pulse-heart 1.2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.heart6 {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-rose);
+    transform: rotate(-45deg);
+    margin: 25px;
+    box-shadow: 0 0 20px rgba(233, 30, 99, 0.4);
+}
+
+.heart6:before,
+.heart6:after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: var(--primary-rose);
+    border-radius: 50%;
+}
+
+.heart6:before {
+    top: -25px;
+    left: 0;
+}
+
+.heart6:after {
+    top: 0;
+    left: 25px;
+}
+
+.loader-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    color: var(--primary-rose);
+    letter-spacing: 2px;
+    animation: text-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse-heart {
+    0% { transform: scale(0.95); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(0.95); }
+}
+
+@keyframes text-pulse {
+    0%, 100% { opacity: 0.6; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-5px); }
 }
 
 /* Background Hearts (Floating) */
@@ -119,7 +203,7 @@ body {
     transition: opacity 0.4s ease;
 }
 
-#cat-meme {
+.meme-container img {
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -127,7 +211,7 @@ body {
     transition: transform 0.5s ease;
 }
 
-.card:hover #cat-meme {
+.card:hover .meme-container img {
     transform: scale(1.05);
 }
 
@@ -355,6 +439,17 @@ h1 {
 ::-webkit-scrollbar-thumb {
     background: var(--primary-light);
     border-radius: 10px;
+}
+
+/* Step Transitions */
+.step-content {
+    width: 100%;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hidden-step {
+    display: none;
+    opacity: 0;
 }
 
 /* Mobile Responsiveness */

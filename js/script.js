@@ -5,6 +5,10 @@ const closeBtn = document.getElementById('closeOverlay');
 const bgDecor = document.getElementById('bgDecor');
 const clickSound = document.getElementById('clickSound');
 
+const permYesBtn = document.getElementById('permYesBtn');
+const stepPermission = document.getElementById('step-permission');
+const stepQuestion = document.getElementById('step-question');
+
 let count = 0;
 const messages = [
     "Eeeeh eeh! 😳",
@@ -43,7 +47,7 @@ function initBackground() {
 }
 
 function updateMeme(index) {
-    const container = document.querySelector('.meme-container');
+    const container = document.querySelector('#step-question .meme-container');
     const memeIndex = Math.min(index, catMemes.length - 1);
     const memeUrl = catMemes[memeIndex];
 
@@ -123,6 +127,27 @@ function playSound() {
         clickSound.currentTime = 0;
         clickSound.play().catch(() => {}); // Catch if browser blocks audio
     }
+}
+
+// Permission Flow
+if (permYesBtn) {
+    permYesBtn.addEventListener('click', () => {
+        playSound();
+        stepPermission.style.opacity = '0';
+        setTimeout(() => {
+            stepPermission.classList.add('hidden-step');
+            stepQuestion.classList.remove('hidden-step');
+            stepPermission.style.display = 'none'; // Ensure it's gone
+            
+            // Fade in question
+            stepQuestion.style.display = 'block'; // Ensure it's visible for opacity transition
+            stepQuestion.style.opacity = '0';
+            requestAnimationFrame(() => {
+                stepQuestion.style.transition = 'opacity 0.5s ease';
+                stepQuestion.style.opacity = '1';
+            });
+        }, 300);
+    });
 }
 
 noBtn.addEventListener('click', (e) => {
@@ -210,6 +235,13 @@ closeBtn.addEventListener('click', () => {
     
     // Reset state to initial
     count = 0;
+
+    // Reset Steps
+    stepQuestion.classList.add('hidden-step');
+    stepPermission.classList.remove('hidden-step');
+    stepPermission.style.display = 'block';
+    stepPermission.style.opacity = '1';
+    stepQuestion.style.display = 'none';
     
     // Reset YES button
     yesBtn.style.transform = 'scale(1)';
@@ -238,3 +270,13 @@ document.addEventListener('keydown', (e) => {
 
 // Initialize
 initBackground();
+
+// Hide Loader
+window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    setTimeout(() => {
+        loader.classList.add('fade-out');
+        document.body.style.overflow = 'auto'; // Re-enable scrolling
+        document.body.style.overflowX = 'hidden'; // Keep horizontal hidden
+    }, 1500); // 1.5s delay for the romantic feel
+});
