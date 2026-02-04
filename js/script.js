@@ -42,8 +42,18 @@ function initBackground() {
         heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
         heart.style.animationDelay = (Math.random() * 10) + 's';
         heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
-        bgDecor.appendChild(heart);
     }
+}
+
+// Preload Images to prevent flickers
+function preloadImages() {
+    catMemes.forEach(url => {
+        const img = new Image();
+        img.src = url;
+    });
+    // Add the extra celebration GIF (not in array)
+    new Image().src = "https://media1.tenor.com/m/fz4_irvGQlcAAAAC/besito-catlove.gif";
+    new Image().src = "https://media1.tenor.com/m/pv0FSK0tt4UAAAAC/cute-cat.gif";
 }
 
 function updateMeme(index) {
@@ -55,8 +65,10 @@ function updateMeme(index) {
 
     setTimeout(() => {
         container.innerHTML = `<img id="cat-meme" src="${memeUrl}" alt="Cat meme">`;
+        // Force reflow to ensure the browser paints the new image before fading in
+        void container.offsetWidth; 
         container.style.opacity = 1;
-    }, 200);
+    }, 400);
 }
 
 function createHeart(x, y, scale = 1, isCelebration = false) {
@@ -133,19 +145,22 @@ function playSound() {
 if (permYesBtn) {
     permYesBtn.addEventListener('click', () => {
         playSound();
+        // Step 1: Fade out permission step
         stepPermission.style.opacity = '0';
+        
+        // Step 2: Wait for fade out, then swap
         setTimeout(() => {
             stepPermission.classList.add('hidden-step');
+            stepPermission.style.display = 'none';
+
             stepQuestion.classList.remove('hidden-step');
-            stepPermission.style.display = 'none'; // Ensure it's gone
+            stepQuestion.style.display = 'block';
             
-            // Fade in question
-            stepQuestion.style.display = 'block'; // Ensure it's visible for opacity transition
-            stepQuestion.style.opacity = '0';
-            requestAnimationFrame(() => {
-                stepQuestion.style.transition = 'opacity 0.5s ease';
+            // Step 3: Fade in question step
+            // Small delay to ensure display:block is applied before opacity transition
+            setTimeout(() => {
                 stepQuestion.style.opacity = '1';
-            });
+            }, 50);
         }, 300);
     });
 }
@@ -270,6 +285,7 @@ document.addEventListener('keydown', (e) => {
 
 // Initialize
 initBackground();
+preloadImages();
 
 // Hide Loader
 window.addEventListener('load', () => {
