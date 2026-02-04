@@ -175,11 +175,11 @@ yesBtn.addEventListener('click', (e) => {
     const celebText = document.getElementById('celebrationText');
     
     if (count > 0) {
-        celebTitle.innerText = "Avasanam! 😊";
+        celebTitle.innerText = "Avasanam! ❤️";
         celebText.innerText = "it's Ook... I love you too! ❤️";
     } else {
         celebTitle.innerText = "wooo! ❤️";
-        celebText.innerText = "Ithra easy aayirunno? You're the one!😊❤️✨";
+        celebText.innerText = "You're the one! LOVE U😊❤️✨";
     }
     
     // Confetti effect / heart burst - Optimized for mobile
