@@ -1,13 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@300;400;600&display=swap');
 
 :root {
-    --bg-color: #fcf6f7;
-    --primary-pink: #ff758c;
-    --secondary-pink: #ffafbd;
-    --card-bg: #ffffff;
-    --text-main: #2d3436;
-    --text-dim: #636e72;
-    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
+    /* Color Palette - Premium Rose & Cream */
+    --primary-rose: hsl(340, 82%, 52%);
+    --primary-light: hsl(340, 82%, 65%);
+    --accent-red: hsl(0, 100%, 70%);
+    --bg-cream: hsl(345, 100%, 98%);
+    --text-dark: hsl(220, 15%, 20%);
+    --text-muted: hsl(220, 10%, 45%);
+    
+    /* Glassmorphism & Effects */
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --shadow-premium: 0 20px 50px rgba(233, 30, 99, 0.15);
+    --shadow-inner: inset 0 2px 4px rgba(255, 255, 255, 0.4);
+    
+    /* Transitions */
+    --transition-smooth: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 * {
@@ -17,119 +26,213 @@
 }
 
 body {
-    background-color: var(--bg-color);
-    background-image: radial-gradient(circle at 0% 0%, #fff0f3 0%, transparent 50%),
-                      radial-gradient(circle at 100% 100%, #fff0f3 0%, transparent 50%);
-    color: var(--text-main);
+    background-color: var(--bg-cream);
+    background-image: 
+        radial-gradient(at 0% 0%, hsla(340, 100%, 95%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 100%, hsla(340, 100%, 95%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 50%, hsla(340, 100%, 98%, 1) 0, transparent 100%);
+    color: var(--text-dark);
     font-family: 'Outfit', sans-serif;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 24px;
+    overflow-x: hidden;
+}
+
+/* Background Hearts (Floating) */
+.bg-decor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.decor-heart {
+    position: absolute;
+    opacity: 0.1;
+    filter: blur(1px);
+    animation: float-hearts 15s infinite linear;
+}
+
+@keyframes float-hearts {
+    0% { transform: translateY(100vh) rotate(0deg); }
+    100% { transform: translateY(-10vh) rotate(360deg); }
 }
 
 .container {
     width: 100%;
-    max-width: 480px;
-    z-index: 10;
+    max-width: 440px;
+    perspective: 1000px;
 }
 
 .card {
-    background: var(--card-bg);
-    border-radius: 32px;
-    padding: 3rem 2.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-border);
+    border-radius: 48px;
+    padding: 3.5rem 2.5rem;
     text-align: center;
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-premium), var(--shadow-inner);
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: hidden;
+    transform: translateZ(0);
+    transition: var(--transition-smooth);
+    animation: card-appear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden; /* Prevent massive buttons from stretching the document */
+}
+
+.card.shake {
+    animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes card-appear {
+    from { opacity: 0; transform: translateY(30px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .meme-container {
     width: 100%;
-    min-height: 220px;
-    margin-bottom: 1.5rem;
+    aspect-ratio: 16/10;
+    margin-bottom: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 20px;
+    border-radius: 32px;
     overflow: hidden;
-    transition: opacity 0.3s ease;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
+    transition: opacity 0.4s ease;
 }
 
 #cat-meme {
     width: 100%;
-    max-height: 380px;
+    height: 100%;
     object-fit: contain;
-    border-radius: 20px;
+    border-radius: 32px;
+    transition: transform 0.5s ease;
+}
+
+.card:hover #cat-meme {
+    transform: scale(1.05);
 }
 
 h1 {
     font-family: 'Dancing Script', cursive;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     font-weight: 700;
     margin-bottom: 2rem;
-    color: var(--primary-pink);
+    background: linear-gradient(135deg, var(--primary-rose), var(--accent-red));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1.2;
 }
 
 .btn-group {
     display: flex;
-    gap: 1.2rem;
+    gap: 1.5rem;
     justify-content: center;
     align-items: center;
     width: 100%;
+    min-height: 80px;
     position: relative;
-    min-height: 70px;
 }
 
 .btn {
-    padding: 0.8rem 2.22rem;
-    border-radius: 14px;
+    padding: 1rem 2.5rem;
+    border-radius: 20px;
     border: none;
     cursor: pointer;
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    letter-spacing: 0.3px;
+    transition: var(--transition-smooth);
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.btn:hover::after {
+    opacity: 1;
 }
 
 .btn-yes {
-    background: var(--primary-pink);
+    background: linear-gradient(135deg, var(--primary-rose), var(--primary-light));
     color: white;
-    box-shadow: 0 4px 15px rgba(255, 117, 140, 0.2);
+    box-shadow: 0 10px 25px hsla(340, 82%, 52%, 0.3);
+    z-index: 2;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 10px 25px hsla(340, 82%, 52%, 0.3); }
+    50% { box-shadow: 0 15px 35px hsla(340, 82%, 52%, 0.5); transform: translateY(-2px) scale(1.02); }
+    100% { box-shadow: 0 10px 25px hsla(340, 82%, 52%, 0.3); }
 }
 
 .btn-yes:hover {
-    background: #ff5e7a;
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(255, 117, 140, 0.3);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 15px 35px hsla(340, 82%, 52%, 0.4);
+    animation: none;
+}
+
+.btn-yes:active {
+    transform: translateY(-2px) scale(0.98);
 }
 
 .btn-no {
-    background: #f1f2f6;
-    color: var(--text-dim);
+    background: white;
+    color: var(--text-muted);
+    border: 1px solid rgba(0,0,0,0.05);
 }
 
 .btn-no:hover {
-    background: #e1e2e6;
-    color: var(--text-main);
+    background: #fffafa;
+    color: var(--text-dark);
+    transform: translateY(-2px);
 }
 
-/* Overlay */
+/* Celebration Overlay */
 .overlay {
     position: fixed;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(8px);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 100;
+    padding: 20px;
+    z-index: 9999;
     opacity: 0;
     visibility: hidden;
-    transition: all 0.4s ease;
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
 }
 
 .overlay.active {
@@ -138,108 +241,152 @@ h1 {
 }
 
 .modal {
-    background: #ffffff;
-    border-radius: 32px;
-    padding: 2.5rem;
-    max-width: 420px;
-    width: 90%;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 48px;
+    padding: 3rem 2rem;
+    max-width: 440px;
+    width: 100%;
     text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-    transform: translateY(20px);
-    transition: transform 0.5s ease;
+    box-shadow: 
+        0 4px 30px rgba(0, 0, 0, 0.05),
+        0 30px 60px rgba(233, 30, 99, 0.15);
+    transform: translateY(40px) scale(0.95);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .overlay.active .modal {
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
 }
 
-.modal img {
-    max-width: 100%;
-    border-radius: 20px;
+.modal video, .modal img {
+    width: 100%;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: 36px;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
 .modal h2 {
     font-family: 'Dancing Script', cursive;
-    font-size: 2.2rem;
-    color: var(--primary-pink);
-    margin-top: 1.5rem;
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, var(--primary-rose), #ff4d6d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.2rem;
+    font-weight: 700;
 }
 
-.modal p {
-    color: var(--text-dim);
+.modal p, #celebrationText {
+    color: var(--text-dark);
+    font-size: 1.1rem;
     line-height: 1.6;
-    margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
+    margin-top: 0;
+    opacity: 0.8;
 }
 
 .close-btn {
-    margin-top: 1.8rem;
-    padding: 0.6rem 1.5rem;
-    background: transparent;
-    border: 1px solid #dfe4ea;
-    color: var(--text-dim);
-    border-radius: 12px;
+    padding: 1rem 2.5rem;
+    background: linear-gradient(135deg, var(--primary-rose), var(--primary-light));
+    border: none;
+    color: white;
+    border-radius: 20px;
     cursor: pointer;
-    transition: 0.2s;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(233, 30, 99, 0.2);
 }
 
 .close-btn:hover {
-    background: #f1f2f6;
-    color: var(--text-main);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(233, 30, 99, 0.3);
 }
 
-/* Particles */
+/* Enhanced Particles */
 .heart-particle {
     position: fixed;
     pointer-events: none;
-    font-size: 1.5rem;
     z-index: 1000;
-    animation: float-away 1s ease-out forwards;
+    user-select: none;
+    animation: heart-fly 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-@keyframes float-away {
-    0% { transform: translate(0, 0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+@keyframes heart-fly {
+    0% { transform: scale(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 1; transform: scale(1.2) rotate(var(--tr)); }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0) rotate(calc(var(--tr) * 2)); opacity: 0; }
 }
 
-/* Mobile */
+.heart-particle.rain {
+    animation: heart-fall var(--fall-duration) cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes heart-fall {
+    0% { transform: translateY(-50px) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(calc(100vh + 100px)) translateX(var(--drift)) rotate(var(--tr)); opacity: 0; }
+}
+
+/* Celebration Layering Fix */
+.heart-particle, .decor-heart {
+    z-index: 10001 !important;
+}
+
+#celebrationOverlay {
+    z-index: 9999 !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-cream);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 10px;
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 480px) {
-    body { padding: 15px; }
+    body { padding: 16px; }
     
     .card {
-        padding: 2rem 1.5rem;
-    }
-
-    .meme-container {
-        min-height: 180px;
+        padding: 2.5rem 1.5rem;
+        border-radius: 40px;
     }
 
     h1 {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
+        font-size: 2.2rem;
     }
 
     .btn-group {
         flex-direction: column;
-        gap: 1rem;
-        padding: 0.5rem 0;
+        gap: 1.2rem;
     }
 
     .btn {
         width: 100%;
-        padding: 0.9rem 1.5rem;
-        font-size: 1rem;
-    }
-
-    .btn-yes {
-        white-space: normal;
-        height: auto;
+        padding: 1.1rem;
     }
 
     .modal {
-        padding: 1.5rem;
+        padding: 2rem 1.25rem;
+        border-radius: 32px;
+        width: 100%;
     }
 
     .modal h2 {
-        font-size: 1.8rem;
+        font-size: 2rem;
     }
 }
